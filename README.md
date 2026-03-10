@@ -1,16 +1,130 @@
-# React + Vite
+# Rajdweep Borah — Engineering Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern portfolio showcasing projects in **Embedded Systems, IoT, and Drone Engineering**.
 
-Currently, two official plugins are available:
+Built using **React, Vite, and Tailwind CSS**, this website presents technical work, engineering projects, and skills in an interactive single-page interface.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This portfolio highlights hands-on engineering projects involving hardware systems, embedded development, and autonomous drone technologies.
 
-## Expanding the ESLint configuration
+The site features animated UI elements, interactive visuals, and a responsive layout designed to present technical work clearly and professionally.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Tech Stack
+
+**Frontend**
+
+* React
+* Vite
+* Tailwind CSS
+
+**UI Features**
+
+* Custom cursor interactions
+* Canvas particle background
+* Typewriter animation
+* Responsive layout
+
+---
+
+## Project Structure
+
+```
+portfolio/
+├── public/
+│   └── static assets
+│
+├── src/
+│   ├── components/
+│   │   ├── CustomCursor.jsx
+│   │   ├── ParticleNetwork.jsx
+│   │   ├── Typewriter.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── Hero.jsx
+│   │   ├── About.jsx
+│   │   ├── Projects.jsx
+│   │   ├── Contact.jsx
+│   │   └── Footer.jsx
+│   │
+│   ├── data/
+│   │   └── index.jsx
+│   │
+│   ├── styles/
+│   │   └── customStyles.js
+│   │
+│   └── App.jsx
+│
+├── index.html
+├── package.json
+├── tailwind.config.ts
+└── vite.config.ts
+```
+
+---
+
+## Features
+
+* Interactive landing page
+* Animated typewriter text
+* Particle network background
+* Custom mouse cursor effects
+* Smooth scrolling navigation
+* Modular React component structure
+
+---
+
+## Running the Project Locally
+
+Clone the repository:
+
+```
+git clone https://github.com/YOUR_USERNAME/portfolio.git
+cd portfolio
+```
+
+Install dependencies:
+
+```
+npm install
+```
+
+Start the development server:
+
+```
+npm run dev
+```
+
+The application will run at:
+
+```
+http://localhost:5173
+```
+
+---
+
+## Build for Production
+
+To create an optimized production build:
+
+```
+npm run build
+```
+
+The compiled files will appear in the `dist` folder.
+
+---
+
+## Author
+
+**Rajdweep Borah**
+Embedded Systems & Drone Engineer
+
+---
+
+## License
+
+This project is licensed under the MIT License.
