@@ -14,13 +14,13 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 w-full z-40 transition-all duration-300 border-b ${
         scrolled
-          ? "bg-[#131313]/95 backdrop-blur-md border-[#EFD395]/20 py-4 shadow-lg shadow-black/50"
-          : "bg-[#131313]/60 backdrop-blur-sm border-transparent py-6"
+          ? "bg-[#0D2625]/95 backdrop-blur-md border-[#83958B]/30 py-4 shadow-lg shadow-black/50"
+          : "bg-[#0D2625]/70 backdrop-blur-sm border-transparent py-6"
       } px-6 md:px-12 flex justify-between items-center`}
     >
       <div className="flex items-center gap-2">
-        <Cpu className="animate-pulse" size={24} style={{ color: '#EFD395' }} />
-        <span className="mono font-bold tracking-wider text-lg" style={{ color: '#EFD395' }}>SYS.ADMIN_</span>
+        <Cpu className="animate-pulse" size={24} style={{ color: '#C6CEC5' }} />
+        <span className="mono font-bold tracking-wider text-lg" style={{ color: '#C6CEC5' }}>SYS.ADMIN_</span>
       </div>
 
       <div className="hidden md:flex gap-8 mono">
