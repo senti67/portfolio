@@ -6,7 +6,7 @@ const Projects = () => (
     <div className="flex items-center gap-4 mb-16 reveal">
       <div className="h-px bg-purple-200 flex-grow" />
       <h2 className="text-3xl md:text-4xl mono text-slate-900 font-bold tracking-widest">
-        <span className="text-purple-600">02.</span> // INITIATIVES
+        <span className="text-cyan-600">02. // INITIATIVES </span>
       </h2>
       <div className="h-px bg-purple-200 flex-grow" />
     </div>
