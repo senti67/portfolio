@@ -35,3 +35,8 @@ export const skills = [
   { name: "Sensor Fusion", icon: <Activity size={20} /> },
   { name: "Linux Systems", icon: <Terminal size={20} /> },
 ];
+
+export const socialLinks = [
+  { name: 'GitHub', url: 'https://github.com/senti67' },
+  { name: 'LinkedIn', url: 'www.linkedin.com/in/rajdweep-borah-33839832a' },
+];
