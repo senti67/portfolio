@@ -7,7 +7,7 @@
 .skill-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-top: 1px solid var(--border); }
 .skill-name { font-size: 12px; color: var(--silver); letter-spacing: 0.04em; }
 .skill-track { width: 120px; height: 1px; background: var(--border-light); position: relative; }
-.skill-fill { position: absolute; left: 0; top: 0; height: 1px; background: var(--silver); transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.skill-fill { position: absolute; left: 0; top: 0; height: 1px; background: var(--gold); transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
 .skill-pct { font-size: 10px; color: var(--dim); width: 32px; text-align: right; }
 @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; } }
 

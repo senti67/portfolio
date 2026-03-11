@@ -1,0 +1,56 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #111;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 32px;
+  transition: opacity 0.7s ease;
+}
+.loader-exit { opacity: 0; pointer-events: none; }
+
+.loader-drone {
+  width: 200px;
+  height: 200px;
+}
+
+.drone-part {
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.4s ease;
+}
+.drone-part.visible { opacity: 1; }
+
+/* arms come from outside */
+.arm-tl { transform: translate(-20px, -20px); }
+.arm-tr { transform: translate(20px, -20px); }
+.arm-bl { transform: translate(-20px, 20px); }
+.arm-br { transform: translate(20px, 20px); }
+.arm-tl.visible, .arm-tr.visible, .arm-bl.visible, .arm-br.visible {
+  transform: translate(0, 0);
+}
+
+/* rotors spin in */
+.rotor { transform-origin: center; }
+.rotor.visible { animation: spin 1.2s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.rotor-tl { transform-origin: 52px 52px; }
+.rotor-tr { transform-origin: 148px 52px; }
+.rotor-bl { transform-origin: 52px 148px; }
+.rotor-br { transform-origin: 148px 148px; }
+
+.loader-line {
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240,192,96,0.6), transparent);
+}
+.loader-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(240,192,96,0.5);
+}
