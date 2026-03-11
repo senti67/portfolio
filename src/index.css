@@ -143,3 +143,7 @@ body {
 @media (max-width: 860px) {
   .section-header { padding: 16px 24px; }
 }
+
+@media (max-width: 600px) {
+  .section-header { padding: 14px 20px; }
+}

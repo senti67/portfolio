@@ -21,3 +21,13 @@
 .project-year { font-size: 11px; color: var(--dim); text-align: right; display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
 .project-arrow-icon { opacity: 0; transform: translateX(-8px); transition: all 0.2s; color: var(--silver); }
 @media (max-width: 860px) { .featured-wrap { grid-template-columns: 1fr; padding: 40px 24px; gap: 32px; } .projects-list { padding: 0 24px; } .project-row { grid-template-columns: 40px 1fr; gap: 16px; } .project-tags, .project-year { display: none; } }
+
+@media (max-width: 600px) {
+  .featured-wrap { grid-template-columns: 1fr; padding: 36px 20px; gap: 28px; }
+  .featured-title { font-size: clamp(28px, 8vw, 44px); }
+  .featured-meta-list { display: none; }
+  .projects-list { padding: 0 20px; }
+  .project-row { grid-template-columns: 36px 1fr; gap: 12px; padding: 20px 0; }
+  .project-tags, .project-year { display: none; }
+  .project-title-text { font-size: 15px; }
+}

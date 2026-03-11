@@ -16,3 +16,11 @@
 .form-submit { background: var(--white); color: var(--bg); padding: 14px 36px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; border: none;  transition: background 0.2s; }
 .form-submit:hover { background: var(--accent); }
 @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; padding: 0 24px; } .contact-left { border-right: none; padding-right: 0; padding-bottom: 40px; border-bottom: 1px solid var(--border); } .contact-right { padding-left: 0; } }
+
+@media (max-width: 600px) {
+  .contact-grid { grid-template-columns: 1fr; padding: 0 20px; }
+  .contact-left { border-right: none; padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .contact-left h2 { font-size: clamp(28px, 8vw, 44px); }
+  .contact-right { padding: 40px 0; }
+  .form-submit { width: 100%; }
+}
