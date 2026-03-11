@@ -43,7 +43,6 @@ export default function Contact() {
             </a>
           </div>
         </div>
-
         <div className="contact-right reveal">
           <div className="form-label-top">Send a Message</div>
           <form onSubmit={e => e.preventDefault()}>
