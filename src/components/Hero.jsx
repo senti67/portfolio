@@ -26,21 +26,20 @@ function useTypewriter(text, speed = 150, delay = 600) {
 
 export default function Hero() {
   const first = useTypewriter('Rajdweep', 150, 600);
-  const last  = useTypewriter('Borah',    150, first.done ? 200 : 999999);
+  const last  = useTypewriter('Borah', 150, first.done ? 200 : 999999);
 
   return (
     <header className="hero">
       <div className="hero-grid-bg" />
       <p className="hero-eyebrow fade-in d1">Embedded Systems · Drone Engineering · IoT</p>
       <h1 className="hero-name">
-        <span className="filled">
+        <div className="filled">
           {first.displayed}
-          {!first.done && <span className="caret">|</span>}
-        </span>
-        <span>
-          {last.displayed}
-          {first.done && <span className="caret">|</span>}
-        </span>
+          {!first.done && <span className="caret" />}
+        </div>
+        <div className="last-line">
+          {last.displayed}{first.done && <span className="caret" />}
+        </div>
       </h1>
       <div className="hero-bottom fade-in d3">
         <p className="hero-desc">

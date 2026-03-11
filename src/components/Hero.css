@@ -45,12 +45,12 @@
   margin-bottom: 36px;
   position: relative;
 }
-.hero-name span {
+.hero-name div {
   display: block;
   color: var(--border-light);
   -webkit-text-stroke: 1px var(--border-light);
 }
-.hero-name span.filled {
+.hero-name div.filled {
   color: var(--white);
   -webkit-text-stroke: 0;
 }
