@@ -1,0 +1,102 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 48px 64px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 40%, transparent 100%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--dim);
+}
+.hero-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(56px, 10vw, 140px);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  margin-bottom: 36px;
+  position: relative;
+}
+.hero-name span {
+  display: block;
+  color: var(--border-light);
+  -webkit-text-stroke: 1px var(--border-light);
+}
+.hero-name span.filled {
+  color: var(--white);
+  -webkit-text-stroke: 0;
+}
+.hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  position: relative;
+}
+.hero-desc {
+  max-width: 420px;
+  font-size: 14px;
+  color: var(--silver);
+  line-height: 1.75;
+  font-weight: 300;
+}
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.75em;
+  background: #ffffff;
+  box-shadow: 0 0 6px 2px rgba(180,180,180,0.3);
+  margin-left: 5px;
+  vertical-align: middle;
+  animation: blink 1.2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  45%, 55% { opacity: 0; }
+}
+@media (max-width: 860px) {
+  .hero { padding: 0 24px 48px; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; }
+}
+
+.hero-name .last-line {
+  display: block;
+}
+.hero-name .last-line .caret {
+  display: inline-block;
+  vertical-align: middle;
+}

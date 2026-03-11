@@ -18,8 +18,8 @@ export const projects = [
     github: "#",
   },
   {
-    title: "Smart Battery Management",
-    description: "Intelligent BMS monitoring voltage, current, and thermal limits for a high-capacity 6S30 Li-ion drone power pack.",
+    title: "High-Performance FPV Drone",
+    description: "Custom FPV quadcopter with embedded flight control, real-time telemetry, and high-performance brushless propulsion.",
     tech: ["Embedded C", "I2C/SPI", "IoT", "Sensors"],
     icon: <Zap className="text-cyan-600 mb-2" size={28} />,
     status: "ACTIVE",

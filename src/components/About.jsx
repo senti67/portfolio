@@ -1,53 +1,59 @@
-import { Terminal, Database } from "lucide-react";
-import { skills } from "../data";
+import { useEffect, useRef } from 'react';
+import './About.css';
 
-const About = () => (
-  <section id="about" className="py-24 px-6 max-w-5xl mx-auto relative">
-    <div className="flex items-center gap-4 mb-12 reveal">
-      <div className="h-px bg-cyan-200 flex-grow" />
-      <h2 className="text-3xl md:text-4xl mono text-slate-900 font-bold tracking-widest">
-        <span className="text-cyan-600">01. // ABOUT_ME</span>
-      </h2>
-      <div className="h-px bg-cyan-200 flex-grow" />
-    </div>
+const SKILLS = [
+  { name: 'Embedded C / C++',    pct: 92 },
+  { name: 'Drone Systems & UAV', pct: 88 },
+  { name: 'PCB Design (KiCad)',  pct: 78 },
+  { name: 'IoT & MQTT',          pct: 82 },
+  { name: 'Python / OpenCV',     pct: 74 },
+  { name: 'RTOS / FreeRTOS',     pct: 70 },
+];
 
-    <div className="grid md:grid-cols-2 gap-12 items-center">
-      <div className="glass-panel cyber-corners p-8 reveal delay-100 border-slate-200">
-        <div className="flex items-center gap-3 mb-4 text-cyan-700 border-b border-cyan-100 pb-4">
-          <Terminal size={20} />
-          <span className="mono font-semibold">USER_PROFILE.txt</span>
-        </div>
-        <p className="text-slate-600 leading-relaxed text-lg mb-6 font-medium">
-          I build embedded systems, autonomous drone technologies, and IoT platforms. My work heavily
-          focuses on hardware-software integration, telemetry pipelines, and constructing digital twin
-          architectures for autonomous UAVs.
-        </p>
-        <p className="text-slate-500 leading-relaxed">
-          Whether it's designing custom PCBs, writing low-level C for microcontrollers, or developing
-          high-level ROS nodes for path planning, I thrive at the intersection of bits and atoms.
-        </p>
+export default function About() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+            setTimeout(() => { bar.style.width = bar.dataset.pct + '%'; }, 100);
+          });
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sectionRef.current?.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="section" id="about" ref={sectionRef}>
+      <div className="section-header">
+        <span className="section-label">About</span>
+        <span className="section-index">01 / 03</span>
       </div>
-
-      <div className="reveal delay-200">
-        <h3 className="mono text-purple-600 mb-6 flex items-center gap-2 font-bold">
-          <Database size={20} /> [CORE_COMPETENCIES]
-        </h3>
-        <div className="grid grid-cols-2 gap-4">
-          {skills.map((skill, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-3 p-3 rounded-md bg-cyan-50 border border-cyan-200 hover:border-cyan-400 hover:bg-cyan-100 transition-colors group cursor-default"
-            >
-              <span className="text-cyan-600 group-hover:text-cyan-700 transition-colors">{skill.icon}</span>
-              <span className="mono text-sm font-bold text-slate-700 group-hover:text-slate-900 transition-colors">
-                {skill.name}
-              </span>
+      <div className="about-grid">
+        <div className="about-left reveal">
+          <h2>Engineering at the edge of software and hardware.</h2>
+          <p>I'm Rajdweep — an embedded systems and drone engineer who likes to work close to the metal. My work lives in the space where firmware meets physics: designing control systems, writing low-level drivers, and building things that actually fly.</p>
+          <p>Currently pursuing my engineering degree, I focus on autonomous platforms, state estimation, and IoT infrastructure that scales down to a single chip.</p>
+        </div>
+        <div className="about-right reveal">
+          <div className="skills-heading">Core Skills</div>
+          {SKILLS.map(s => (
+            <div className="skill-row" key={s.name}>
+              <span className="skill-name">{s.name}</span>
+              <div className="skill-track">
+                <div className="skill-fill" data-pct={s.pct} style={{ width: 0 }} />
+              </div>
+              <span className="skill-pct">{s.pct}%</span>
             </div>
           ))}
         </div>
       </div>
-    </div>
-  </section>
-);
-
-export default About;
+    </section>
+  );
+}

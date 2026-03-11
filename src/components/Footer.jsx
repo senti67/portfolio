@@ -1,8 +1,15 @@
-const Footer = () => (
-  <footer className="py-6 border-t border-cyan-200 text-center mono text-sm text-slate-500">
-    <p>© {new Date().getFullYear()} RAJDWEEP BORAH. // SYSTEM V 2.0.4</p>
-    <p className="text-xs mt-1">BUILT WITH REACT & NEON PIXELS</p>
-  </footer>
-);
+import './Footer.css';
 
-export default Footer;
+export default function Footer() {
+  return (
+    <footer className="footer">
+      <div className="footer-name">Rajdweep Borah</div>
+      <div className="footer-copy">© 2025 — All rights reserved</div>
+      <div className="footer-links">
+        <a href="https://github.com/senti67" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Resume</a>
+      </div>
+    </footer>
+  );
+}

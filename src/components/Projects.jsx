@@ -1,66 +1,111 @@
-import { Github, ExternalLink } from "lucide-react";
-import { projects } from "../data";
+import { useEffect, useRef } from 'react';
+import './Projects.css';
 
-const Projects = () => (
-  <section id="projects" className="py-24 px-6 max-w-6xl mx-auto relative">
-    <div className="flex items-center gap-4 mb-16 reveal">
-      <div className="h-px bg-purple-200 flex-grow" />
-      <h2 className="text-3xl md:text-4xl mono text-slate-900 font-bold tracking-widest">
-        <span className="text-cyan-600">02. // INITIATIVES </span>
-      </h2>
-      <div className="h-px bg-purple-200 flex-grow" />
-    </div>
+const FEATURED = {
+  title: 'Digital Twin\nfor Drone',
+  desc: 'A real-time digital twin system that mirrors a physical drone\'s state in a virtual environment. Sensor data from the drone is streamed live to simulate flight dynamics, telemetry, and system health — enabling monitoring, testing, and failure prediction without risking the hardware.',
+  stack: ['Python', 'ROS', 'Telemetry', 'Simulation', 'IMU', 'MAVLink'],
+  meta: [
+    { k: 'Category', v: 'Drone Engineering' },
+    { k: 'Type',     v: 'Simulation & Monitoring' },
+    { k: 'Status',   v: 'In Progress' },
+    { k: 'Year',     v: '2025' },
+  ],
+};
 
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {projects.map((p, i) => (
-        <div
-          key={i}
-          className={`glass-panel cyber-corners p-6 flex flex-col h-full reveal delay-${(i % 3 + 1) * 100} group interactive border-slate-200`}
-        >
-          <div className="flex justify-between items-start mb-4">
-            {p.icon}
-            <div className="flex items-center gap-1.5 px-2 py-1 bg-green-100 border border-green-300 rounded text-[10px] mono text-green-700 font-bold">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              {p.status}
-            </div>
-          </div>
+const PROJECTS = [
+  {
+    idx: '02',
+    title: 'FPV Drone',
+    desc: 'Built a first-person-view drone from scratch — frame assembly, ESC wiring, flight controller tuning, and camera feed integration for real-time piloting.',
+    tags: ['Hardware', 'Flight Controller', 'FPV', 'PID Tuning'],
+    year: '2024',
+  },
+  {
+    idx: '03',
+    title: 'UI/UX Design — Web Platform',
+    desc: 'Designed and developed the full user interface for a web application, focusing on clean layout, intuitive navigation, and a consistent visual language.',
+    tags: ['React', 'Figma', 'CSS', 'UI/UX'],
+    year: '2024',
+  },
+  {
+    idx: '04',
+    title: 'Developer Portfolio',
+    desc: 'Designed and built this portfolio from the ground up — dark minimal aesthetic, custom cursor, scroll animations, and a fully responsive layout.',
+    tags: ['React', 'Vite', 'Tailwind', 'CSS'],
+    year: '2025',
+  },
+  {
+    idx: '05',
+    title: 'Video Wall Interface',
+    desc: 'Building a modular video wall display system using Raspberry Pi Pico microcontrollers driving TFT screens — coordinated to render a single image or video across multiple panels.',
+    tags: ['Raspberry Pi Pico', 'TFT', 'MicroPython', 'Embedded'],
+    year: '2025',
+  },
+];
 
-          <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-cyan-600 transition-colors">
-            {p.title}
-          </h3>
+export default function Projects() {
+  const sectionRef = useRef(null);
 
-          <p className="text-slate-600 mb-6 flex-grow text-sm leading-relaxed font-medium">
-            {p.description}
-          </p>
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    sectionRef.current?.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
-          <div className="mt-auto">
-            <div className="flex flex-wrap gap-2 mb-6">
-              {p.tech.map((t, index) => (
-                <span
-                  key={index}
-                  className="text-xs font-bold mono bg-cyan-100 border border-cyan-300 text-cyan-700 px-2 py-1 rounded"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+  return (
+    <section className="section" id="projects" ref={sectionRef}>
+      <div className="section-header">
+        <span className="section-label">Selected Work</span>
+        <span className="section-index">02 / 03</span>
+      </div>
 
-            <div className="border-t border-slate-200 pt-4 flex justify-between items-center">
-              <a
-                href={p.github}
-                className="flex items-center gap-2 text-sm text-slate-500 hover:text-cyan-600 transition-colors mono font-bold"
-              >
-                <Github size={16} /> View Source
-              </a>
-              <a href="#" className="text-slate-400 hover:text-purple-600 transition-colors">
-                <ExternalLink size={18} />
-              </a>
-            </div>
+      {/* Featured */}
+      <div className="featured-wrap reveal">
+        <div>
+          <div className="featured-badge">Featured Project</div>
+          <h2 className="featured-title">
+            {FEATURED.title.split('\n').map((line, i) => (
+              <span key={i}>{line}{i < 1 && <br />}</span>
+            ))}
+          </h2>
+          <p className="featured-body">{FEATURED.desc}</p>
+          <div className="featured-stack">
+            {FEATURED.stack.map(t => <span className="tag" key={t}>{t}</span>)}
           </div>
         </div>
-      ))}
-    </div>
-  </section>
-);
+        <div className="featured-meta-list">
+          {FEATURED.meta.map(m => (
+            <div className="meta-row" key={m.k}>
+              <span className="meta-k">{m.k}</span>
+              <span className="meta-v">{m.v}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-export default Projects;
+      {/* List */}
+      <div className="projects-list reveal">
+        {PROJECTS.map(p => (
+          <div className="project-row" key={p.idx}>
+            <span className="project-idx">{p.idx}</span>
+            <div className="project-main">
+              <div className="project-title-text">{p.title}</div>
+              <div className="project-desc-short">{p.desc}</div>
+            </div>
+            <div className="project-tags">
+              {p.tags.map(t => <span className="tag" key={t}>{t}</span>)}
+            </div>
+            <div className="project-year">
+              {p.year} <span className="project-arrow-icon">→</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
