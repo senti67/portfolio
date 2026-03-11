@@ -25,17 +25,21 @@ export default function Contact() {
           <h2>Let's work<br />together.</h2>
           <p>Open to internships, research collaborations, and engineering projects. If you're building something at the intersection of hardware and software, reach out.</p>
           <div>
-            <a href="mailto:rajdweep@example.com" className="contact-link-row">
-              <span className="cl-text">rajdweep@example.com</span>
+            <a href="mailto:rajdweepborah@gmail.com" className="contact-link-row">
+              <span className="cl-text">rajdweepborah@gmail.com</span>
               <span className="cl-label">Email</span>
+            </a>
+            <a href="https://www.linkedin.com/in/rajdweep-borah-33839832a/" className="contact-link-row" target="_blank" rel="noreferrer">
+              <span className="cl-text">linkedin.com/in/rajdweep-borah</span>
+              <span className="cl-label">LinkedIn</span>
+            </a>
+            <a href="https://www.instagram.com/rajdweep._.borah/" className="contact-link-row" target="_blank" rel="noreferrer">
+              <span className="cl-text">instagram.com/rajdweep._.borah</span>
+              <span className="cl-label">Instagram</span>
             </a>
             <a href="https://github.com/senti67" className="contact-link-row" target="_blank" rel="noreferrer">
               <span className="cl-text">github.com/senti67</span>
               <span className="cl-label">GitHub</span>
-            </a>
-            <a href="#" className="contact-link-row">
-              <span className="cl-text">linkedin.com/in/rajdweep</span>
-              <span className="cl-label">LinkedIn</span>
             </a>
           </div>
         </div>
