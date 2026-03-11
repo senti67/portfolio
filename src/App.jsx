@@ -20,7 +20,7 @@ export default function App() {
         <CustomCursor />
         <Navbar />
         <main>
-          <Hero />
+          <Hero key={loaded ? 'loaded' : 'hidden'} />
           <Marquee />
           <About />
           <Projects />

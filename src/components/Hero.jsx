@@ -1,32 +1,44 @@
 import { useEffect, useState } from 'react';
 import './Hero.css';
 
-function useTypewriter(text, speed = 150, delay = 600) {
-  const [displayed, setDisplayed] = useState('');
-  const [done, setDone] = useState(false);
+export default function Hero() {
+  const [firstText, setFirstText] = useState('');
+  const [secondText, setSecondText] = useState('');
+  const [firstDone, setFirstDone] = useState(false);
+  const [secondDone, setSecondDone] = useState(false);
 
   useEffect(() => {
+    const firstName = 'Rajdweep';
+    const lastName = 'Borah';
     let i = 0;
-    const timeout = setTimeout(() => {
-      const interval = setInterval(() => {
-        setDisplayed(text.slice(0, i + 1));
+
+    // Type first name
+    const t1 = setTimeout(() => {
+      const iv1 = setInterval(() => {
         i++;
-        if (i >= text.length) {
-          clearInterval(interval);
-          setDone(true);
+        setFirstText(firstName.slice(0, i));
+        if (i >= firstName.length) {
+          clearInterval(iv1);
+          setFirstDone(true);
+
+          // Type last name after first is done
+          let j = 0;
+          const t2 = setTimeout(() => {
+            const iv2 = setInterval(() => {
+              j++;
+              setSecondText(lastName.slice(0, j));
+              if (j >= lastName.length) {
+                clearInterval(iv2);
+                setSecondDone(true);
+              }
+            }, 120);
+          }, 200);
         }
-      }, speed);
-      return () => clearInterval(interval);
-    }, delay);
-    return () => clearTimeout(timeout);
-  }, [text, speed, delay]);
+      }, 120);
+    }, 500);
 
-  return { displayed, done };
-}
-
-export default function Hero() {
-  const first = useTypewriter('Rajdweep', 150, 600);
-  const last  = useTypewriter('Borah', 150, first.done ? 200 : 999999);
+    return () => clearTimeout(t1);
+  }, []);
 
   return (
     <header className="hero">
@@ -34,11 +46,12 @@ export default function Hero() {
       <p className="hero-eyebrow fade-in d1">Embedded Systems · Drone Engineering · IoT</p>
       <h1 className="hero-name">
         <div className="filled">
-          {first.displayed}
-          {!first.done && <span className="caret" />}
+          {firstText}
+          {!firstDone && <span className="caret" />}
         </div>
         <div className="last-line">
-          {last.displayed}{first.done && <span className="caret" />}
+          {secondText}
+          {firstDone && <span className="caret" />}
         </div>
       </h1>
       <div className="hero-bottom fade-in d3">

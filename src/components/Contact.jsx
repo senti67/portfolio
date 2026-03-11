@@ -47,16 +47,16 @@ export default function Contact() {
           <div className="form-label-top">Send a Message</div>
           <form onSubmit={e => e.preventDefault()}>
             <div className="field">
-              <label>Name</label>
-              <input type="text" placeholder="Your name" />
+              <label htmlFor="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your name" autoComplete="name" />
             </div>
             <div className="field">
-              <label>Email</label>
-              <input type="email" placeholder="your@email.com" />
+              <label htmlFor="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="your@email.com" autoComplete="email" />
             </div>
             <div className="field">
-              <label>Message</label>
-              <textarea placeholder="What are you building?" />
+              <label htmlFor="message">Message</label>
+              <textarea id="message" name="message" placeholder="What are you building?" />
             </div>
             <button type="submit" className="form-submit">Send Message</button>
           </form>
