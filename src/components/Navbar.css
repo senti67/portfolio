@@ -1,14 +1,27 @@
-.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 24px 48px; border-bottom: 1px solid var(--border); background: rgba(9,9,9,0.92); backdrop-filter: blur(12px); }
-.nav-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.04em; color: var(--white); text-decoration: none; }
-.nav-links { display: flex; gap: 36px; list-style: none; }
-.nav-links a { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
-.nav-links a:hover { color: var(--white); }
-.nav-status { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--dim); letter-spacing: 0.08em; }
-@media (max-width: 860px) { .navbar { padding: 18px 24px; } .nav-status { display: none; } }
-
-@media (max-width: 600px) {
-  .navbar { padding: 16px 20px; }
-  .nav-links { gap: 20px; }
-  .nav-links a { font-size: 10px; }
-  .nav-status { display: none; }
+.navbar {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 0 32px; height: 44px;
+  background: rgba(0,0,0,0.92); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(4px);
+}
+.nav-logo {
+  font-family:'Syne',sans-serif; font-weight:800; font-size:14px;
+  letter-spacing:0.2em; color:var(--amber);
+  text-shadow: 0 0 14px rgba(255,176,0,0.7);
+}
+.nav-links { display:flex; gap:0; list-style:none; }
+.nav-links li a {
+  display:block; padding:0 20px; height:44px; line-height:44px;
+  font-size:9px; letter-spacing:0.3em; text-transform:uppercase;
+  color:var(--text-dim); border-left:1px solid var(--border);
+  transition:color 0.15s,background 0.15s;
+}
+.nav-links li a:hover, .nav-links li a.active { color:var(--amber); background:var(--amber-faint); }
+.nav-links li:last-child a { border-right:1px solid var(--border); }
+.nav-coords { font-size:9px; color:var(--text-faint); letter-spacing:0.1em; display:flex; gap:16px; }
+.nav-status-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--green-ok); box-shadow:0 0 8px var(--green-ok);
+  animation:blink 2s ease infinite; display:inline-block; margin-right:6px;
 }

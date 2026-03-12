@@ -2,56 +2,114 @@ import { useEffect, useRef } from 'react';
 import './About.css';
 
 const SKILLS = [
-  { name: 'Embedded C / C++',    pct: 92 },
-  { name: 'Drone Systems & UAV', pct: 88 },
-  { name: 'PCB Design (KiCad)',  pct: 78 },
-  { name: 'IoT & MQTT',          pct: 82 },
-  { name: 'Python / OpenCV',     pct: 74 },
-  { name: 'RTOS / FreeRTOS',     pct: 70 },
+  { name: 'Embedded C/C++', pct: 88 },
+  { name: 'Python / ROS',   pct: 82 },
+  { name: 'Drone Systems',  pct: 90 },
+  { name: 'React / Vite',   pct: 75 },
+  { name: 'PCB Design',     pct: 65 },
+  { name: 'MicroPython',    pct: 78 },
+  { name: 'MAVLink',        pct: 80 },
+  { name: 'Sensor Fusion',  pct: 72 },
 ];
 
 export default function About() {
-  const sectionRef = useRef(null);
-
+  const ref = useRef();
   useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          entry.target.querySelectorAll('.skill-fill').forEach(bar => {
-            setTimeout(() => { bar.style.width = bar.dataset.pct + '%'; }, 100);
-          });
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+          e.target.querySelectorAll('.skill-fill').forEach(el => el.classList.add('animate'));
         }
       });
-    }, { threshold: 0.1 });
-
-    sectionRef.current?.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    return () => observer.disconnect();
+    }, { threshold: 0.05 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
   }, []);
 
   return (
-    <section className="section" id="about" ref={sectionRef}>
-      <div className="section-header">
-        <span className="section-label">About</span>
-        <span className="section-index">01 / 03</span>
-      </div>
-      <div className="about-grid">
-        <div className="about-left reveal">
-          <h2>Engineering at the edge of software and hardware.</h2>
-          <p>I'm Rajdweep — an embedded systems and drone engineer who likes to work close to the metal. My work lives in the space where firmware meets physics: designing control systems, writing low-level drivers, and building things that actually fly.</p>
-          <p>Currently pursuing my engineering degree, I focus on autonomous platforms, state estimation, and IoT infrastructure that scales down to a single chip.</p>
+    <section className="section" id="about" ref={ref}>
+      <div className="about-section">
+        <div className="about-section-title">
+          SYSTEM PROFILE — OPERATOR DATA
+          <span className="sect-num">01 / 03</span>
         </div>
-        <div className="about-right reveal">
-          <div className="skills-heading">Core Skills</div>
-          {SKILLS.map(s => (
-            <div className="skill-row" key={s.name}>
-              <span className="skill-name">{s.name}</span>
-              <div className="skill-track">
-                <div className="skill-fill" data-pct={s.pct} style={{ width: 0 }} />
-              </div>
-              <span className="skill-pct">{s.pct}%</span>
+
+        <div className="about-console-grid">
+          <div className="profile-panel reveal">
+            <div className="bracket tl"/><div className="bracket br"/>
+            <div className="profile-panel-header">
+              <span>OPERATOR_RECORD.DAT</span>
+              <span>CLEARANCE: LEVEL-3</span>
             </div>
-          ))}
+            <div className="profile-body">
+              <div className="profile-name">Rajdweep Borah</div>
+              <div className="profile-role">EMBEDDED SYSTEMS · DRONE ENGINEER</div>
+
+              <p className="profile-bio">
+                I'm from Guwahati. I build things that actually exist in the physical world —
+                not just on a screen. Got into this properly after staying up till 4am debugging
+                a sensor that turned out to be wired backwards. Still not over it.
+              </p>
+              <p className="profile-bio">
+                There's something about the moment a sensor reading just works —
+                or when code you wrote runs on real hardware for the first time —
+                that I haven't found anywhere else. That's why I do this.
+              </p>
+              <p className="profile-bio" style={{ opacity: 0.5, fontSize: '10px', fontStyle: 'italic' }}>
+                also yes i can smell when a board has been freshly soldered. it's a gift.
+              </p>
+
+              <div className="profile-tags">
+                {['C++','Python','ROS','MAVLink','React','FPV','IoT','PCB'].map(t => (
+                  <span key={t} className="profile-tag">{t}</span>
+                ))}
+              </div>
+
+              <div className="stats-grid">
+                {[
+                  ['5+',  'projects shipped'],
+                  ['2+',  'years in'],
+                  ['3',   'active right now'],
+                  ['1',   'wired backwards'],
+                ].map(([v, l]) => (
+                  <div key={l} className="stat-cell">
+                    <div className="stat-val">{v}</div>
+                    <div className="stat-lbl">{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="capability-panel reveal">
+            <div className="bracket tl"/><div className="bracket br"/>
+            <div className="capability-panel-header">
+              <span>CAPABILITY_MATRIX.SYS</span>
+              <span>honest numbers</span>
+            </div>
+            <div className="capability-list">
+              {SKILLS.map((s, i) => (
+                <div className="skill-row" key={s.name}>
+                  <div className="skill-id">{String(i + 1).padStart(2, '0')}</div>
+                  <div className="skill-name">{s.name}</div>
+                  <div className="skill-track">
+                    <div className="skill-fill" style={{ width: `${s.pct}%` }} />
+                  </div>
+                  <div className="skill-pct">{s.pct}</div>
+                </div>
+              ))}
+              <p style={{
+                fontSize: '9px',
+                color: 'rgba(255,176,0,0.3)',
+                marginTop: '16px',
+                lineHeight: '1.6',
+                fontStyle: 'italic'
+              }}>
+                * PCB number goes up every time i don't short something
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

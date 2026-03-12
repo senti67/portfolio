@@ -1,210 +1,88 @@
 import { useEffect, useRef, useState } from 'react';
 import './Loader.css';
-
-export default function Loader({ onDone }) {
-  const [exiting, setExiting] = useState(false);
-  const [showLabel, setShowLabel] = useState(false);
-
-  // refs for animating
-  const bodyRef = useRef();
-  const armRefs = useRef([]);
-  const motorRefs = useRef([]);
-  const propRefs = useRef([]);
-  const glowRef = useRef();
-  const camRef = useRef();
-
-  const easeInOut = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
-  const easeOut   = t => 1 - Math.pow(1 - t, 3);
-
-  const animateProp = (el, duration, startTime) => {
-    if (!el) return;
-    const tick = (now) => {
-      const t = (now - startTime) / duration;
-      el.style.transform = `rotate(${t * 1440}deg)`;
-      requestAnimationFrame(tick);
+const BLIPS=[{angle:35,r:0.55},{angle:82,r:0.38},{angle:130,r:0.68},{angle:195,r:0.47},{angle:240,r:0.6},{angle:295,r:0.35},{angle:320,r:0.72},{angle:18,r:0.75}];
+export default function Loader({onDone}){
+  const canvasRef=useRef();
+  const [label,setLabel]=useState('');
+  const [labelVisible,setLabelVisible]=useState(false);
+  const [exiting,setExiting]=useState(false);
+  const rafRef=useRef();
+  const startRef=useRef();
+  const blipOp=useRef(BLIPS.map(()=>0));
+  useEffect(()=>{
+    const canvas=canvasRef.current;
+    const ctx=canvas.getContext('2d');
+    const S=canvas.width,cx=S/2,cy=S/2,R=S/2-10;
+    const toRad=deg=>(deg-90)*Math.PI/180;
+    const draw=(now)=>{
+      if(!startRef.current)startRef.current=now;
+      const elapsed=now-startRef.current;
+      const sweep=((elapsed/3200)*Math.PI*2)%(Math.PI*2);
+      ctx.clearRect(0,0,S,S); ctx.fillStyle='#000'; ctx.fillRect(0,0,S,S);
+      [0.2,0.4,0.6,0.8,1].forEach(f=>{
+        ctx.beginPath(); ctx.arc(cx,cy,R*f,0,Math.PI*2);
+        ctx.strokeStyle=f===1?'rgba(255,176,0,0.35)':'rgba(255,176,0,0.1)';
+        ctx.lineWidth=f===1?1.5:0.8; ctx.stroke();
+      });
+      for(let deg=0;deg<360;deg+=10){
+        const a=toRad(deg),inner=deg%30===0?R-12:R-6;
+        ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*inner,cy+Math.sin(a)*inner);
+        ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);
+        ctx.strokeStyle='rgba(255,176,0,0.25)'; ctx.lineWidth=deg%30===0?1.2:0.5; ctx.stroke();
+      }
+      [0,45,90,135].forEach(deg=>{
+        const a=toRad(deg);
+        ctx.beginPath(); ctx.moveTo(cx-Math.cos(a)*R,cy-Math.sin(a)*R);
+        ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);
+        ctx.strokeStyle='rgba(255,176,0,0.07)'; ctx.lineWidth=0.8; ctx.stroke();
+      });
+      const TRAIL=Math.PI*1.0;
+      for(let i=0;i<48;i++){
+        const frac=i/48;
+        const a1=(sweep-TRAIL)+frac*TRAIL-Math.PI/2;
+        const a2=(sweep-TRAIL)+(frac+1/48)*TRAIL-Math.PI/2;
+        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,a1,a2);
+        ctx.closePath(); ctx.fillStyle=`rgba(255,176,0,${frac*0.14})`; ctx.fill();
+      }
+      ctx.beginPath(); ctx.moveTo(cx,cy);
+      ctx.lineTo(cx+Math.cos(sweep-Math.PI/2)*R,cy+Math.sin(sweep-Math.PI/2)*R);
+      ctx.strokeStyle='rgba(255,176,0,0.9)'; ctx.lineWidth=1.5;
+      ctx.shadowColor='rgba(255,176,0,0.9)'; ctx.shadowBlur=10;
+      ctx.stroke(); ctx.shadowBlur=0;
+      ctx.beginPath(); ctx.arc(cx,cy,3,0,Math.PI*2);
+      ctx.fillStyle='#ffb000'; ctx.shadowColor='#ffb000'; ctx.shadowBlur=12;
+      ctx.fill(); ctx.shadowBlur=0;
+      BLIPS.forEach((b,i)=>{
+        const ba=toRad(b.angle)+Math.PI/2;
+        let diff=sweep-ba;
+        while(diff<0)diff+=Math.PI*2; while(diff>Math.PI*2)diff-=Math.PI*2;
+        if(diff<0.12)blipOp.current[i]=1;
+        else blipOp.current[i]=Math.max(0,blipOp.current[i]-0.006);
+        const op=blipOp.current[i]; if(op<=0)return;
+        const bx=cx+Math.cos(toRad(b.angle))*R*b.r;
+        const by=cy+Math.sin(toRad(b.angle))*R*b.r;
+        ctx.beginPath(); ctx.arc(bx,by,2.5,0,Math.PI*2);
+        ctx.fillStyle=`rgba(255,176,0,${op})`;
+        ctx.shadowColor='#ffb000'; ctx.shadowBlur=op*10;
+        ctx.fill(); ctx.shadowBlur=0;
+      });
+      if(elapsed<3600)rafRef.current=requestAnimationFrame(draw);
     };
-    requestAnimationFrame(tick);
-  };
-
-  const fadeIn = (el, duration, delay, fromOpacity = 0, toOpacity = 1, onDoneCb) => {
-    if (!el) return;
-    setTimeout(() => {
-      const start = performance.now();
-      const tick = (now) => {
-        const t = Math.min((now - start) / duration, 1);
-        const e = easeOut(t);
-        el.style.opacity = fromOpacity + (toOpacity - fromOpacity) * e;
-        if (t < 1) requestAnimationFrame(tick);
-        else if (onDoneCb) onDoneCb();
-      };
-      requestAnimationFrame(tick);
-    }, delay);
-  };
-
-  const animateGlow = (el, duration, delay) => {
-    if (!el) return;
-    setTimeout(() => {
-      const start = performance.now();
-      const tick = (now) => {
-        const t = Math.min((now - start) / duration, 1);
-        const e = easeInOut(t);
-        const r = 40 + e * 80;
-        const opacity = 0.1 + e * 0.5;
-        el.setAttribute('r', r);
-        el.setAttribute('opacity', opacity);
-        if (t < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }, delay);
-  };
-
-  const animateStroke = (el, duration, delay, fromColor, toColor) => {
-    if (!el) return;
-    setTimeout(() => {
-      const start = performance.now();
-      const tick = (now) => {
-        const t = Math.min((now - start) / duration, 1);
-        const e = easeOut(t);
-        // interpolate from dark to gold
-        const r = Math.round(60 + e * 180);
-        const g = Math.round(60 + e * 132);
-        const b = Math.round(60 + e * 36);
-        el.style.stroke = `rgb(${r},${g},${b})`;
-        el.style.filter = e > 0.5
-          ? `drop-shadow(0 0 ${e * 12}px rgba(240,192,96,${e * 0.9}))`
-          : 'none';
-        if (t < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }, delay);
-  };
-
-  useEffect(() => {
-    // Phase 1 (0–600ms): drone silhouette fades in dark
-    fadeIn(bodyRef.current, 600, 200, 0, 0.15);
-    armRefs.current.forEach((el, i) => fadeIn(el, 600, 200 + i * 80, 0, 0.15));
-    motorRefs.current.forEach((el, i) => fadeIn(el, 600, 200 + i * 80, 0, 0.15));
-
-    // Phase 2 (800ms): power up — glow expands from center
-    animateGlow(glowRef.current, 1000, 800);
-
-    // Phase 3 (900ms): body lights up gold
-    animateStroke(bodyRef.current, 800, 900);
-    armRefs.current.forEach((el, i) => animateStroke(el, 800, 1000 + i * 100));
-    motorRefs.current.forEach((el, i) => animateStroke(el, 800, 1000 + i * 100));
-
-    // Phase 4 (1400ms): props spin up from 0
-    propRefs.current.forEach((el, i) => {
-      if (!el) return;
-      fadeIn(el, 400, 1400 + i * 60, 0, 0.85);
-      setTimeout(() => animateProp(el, 600, performance.now()), 1400 + i * 60);
-    });
-
-    // Phase 5 (1600ms): camera dot appears
-    fadeIn(camRef.current, 400, 1700, 0, 1);
-
-    // Label
-    setTimeout(() => setShowLabel(true), 1800);
-
-    // Exit
-    setTimeout(() => setExiting(true), 2800);
-    setTimeout(() => onDone(), 3600);
-  }, []);
-
-  // Drone geometry — centered at 160,160 in a 320x320 viewBox
-  const cx = 160, cy = 160;
-  const armLen = 72;
-  const motorR = 14;
-  const propW = 28, propH = 5;
-
-  const motors = [
-    { x: cx - armLen, y: cy - armLen },
-    { x: cx + armLen, y: cy - armLen },
-    { x: cx - armLen, y: cy + armLen },
-    { x: cx + armLen, y: cy + armLen },
-  ];
-
-  return (
-    <div className={`loader ${exiting ? 'loader-exit' : ''}`}>
-      <svg className="loader-svg" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#f0c060" stopOpacity="0.6"/>
-            <stop offset="100%" stopColor="#f0c060" stopOpacity="0"/>
-          </radialGradient>
-        </defs>
-
-        {/* central glow */}
-        <circle ref={glowRef} cx={cx} cy={cy} r="40" fill="url(#glowGrad)" opacity="0" />
-
-        {/* arms */}
-        {motors.map((m, i) => (
-          <line
-            key={i}
-            ref={el => armRefs.current[i] = el}
-            x1={cx} y1={cy} x2={m.x} y2={m.y}
-            stroke="#3c3c3c"
-            strokeWidth="3"
-            strokeLinecap="round"
-            style={{ opacity: 0 }}
-          />
-        ))}
-
-        {/* body */}
-        <rect
-          ref={bodyRef}
-          x={cx - 18} y={cy - 18} width="36" height="36" rx="6"
-          fill="#1a1a1a" stroke="#3c3c3c" strokeWidth="1.5"
-          style={{ opacity: 0 }}
-        />
-        <line x1={cx - 10} y1={cy} x2={cx + 10} y2={cy} stroke="rgba(240,192,96,0.15)" strokeWidth="1"/>
-        <line x1={cx} y1={cy - 10} x2={cx} y2={cy + 10} stroke="rgba(240,192,96,0.15)" strokeWidth="1"/>
-
-        {/* motors + props */}
-        {motors.map((m, i) => (
-          <g key={i}>
-            <circle
-              ref={el => motorRefs.current[i] = el}
-              cx={m.x} cy={m.y} r={motorR}
-              fill="#161616" stroke="#3c3c3c" strokeWidth="1.5"
-              style={{ opacity: 0 }}
-            />
-            {/* prop — rotates around motor center */}
-            <g
-              ref={el => propRefs.current[i] = el}
-              style={{
-                opacity: 0,
-                transformOrigin: `${m.x}px ${m.y}px`,
-              }}
-            >
-              <rect
-                x={m.x - propW} y={m.y - propH / 2}
-                width={propW * 2} height={propH}
-                rx={propH / 2}
-                fill="rgba(240,192,96,0.5)"
-              />
-              <rect
-                x={m.x - propH / 2} y={m.y - propW}
-                width={propH} height={propW * 2}
-                rx={propH / 2}
-                fill="rgba(240,192,96,0.5)"
-              />
-            </g>
-          </g>
-        ))}
-
-        {/* camera */}
-        <circle
-          ref={camRef}
-          cx={cx} cy={cy + 26} r="4"
-          fill="rgba(240,192,96,0.2)" stroke="#f0c060" strokeWidth="1"
-          style={{ opacity: 0, filter: 'drop-shadow(0 0 6px rgba(240,192,96,0.9))' }}
-        />
-
-      </svg>
-
-      <div className={`loader-label ${showLabel ? 'visible' : ''}`}>
-        Initializing Systems
+    rafRef.current=requestAnimationFrame(draw);
+    setTimeout(()=>{setLabel('SCANNING...');setLabelVisible(true);},500);
+    setTimeout(()=>setLabelVisible(false),2200);
+    setTimeout(()=>{setLabel('TARGET LOCATED.');setLabelVisible(true);},2700);
+    setTimeout(()=>setLabelVisible(false),3400);
+    setTimeout(()=>setExiting(true),3800);
+    setTimeout(()=>onDone(),4600);
+    return ()=>cancelAnimationFrame(rafRef.current);
+  },[]);
+  const isLocated=label==='TARGET LOCATED.';
+  return(
+    <div className={`loader ${exiting?'loader-exit':''}`}>
+      <canvas ref={canvasRef} width="340" height="340" style={{width:'min(340px,85vw)',height:'min(340px,85vw)'}}/>
+      <div className="loader-label" style={{color:isLocated?'#ffb000':'rgba(255,176,0,0.6)',opacity:labelVisible?1:0,textShadow:isLocated?'0 0 14px rgba(255,176,0,0.9)':'0 0 8px rgba(255,176,0,0.5)'}}>
+        {label}
       </div>
     </div>
   );

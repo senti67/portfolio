@@ -1,110 +1,101 @@
 import { useEffect, useRef } from 'react';
 import './Projects.css';
 
-const FEATURED = {
-  title: 'Digital Twin\nfor Drone',
-  desc: 'A real-time digital twin system that mirrors a physical drone\'s state in a virtual environment. Sensor data from the drone is streamed live to simulate flight dynamics, telemetry, and system health — enabling monitoring, testing, and failure prediction without risking the hardware.',
-  stack: ['Python', 'ROS', 'Telemetry', 'Simulation', 'IMU', 'MAVLink'],
-  meta: [
-    { k: 'Category', v: 'Drone Engineering' },
-    { k: 'Type',     v: 'Simulation & Monitoring' },
-    { k: 'Status',   v: 'In Progress' },
-    { k: 'Year',     v: '2025' },
-  ],
-};
-
 const PROJECTS = [
   {
-    idx: '02',
-    title: 'FPV Drone',
-    desc: 'Built a first-person-view drone from scratch — frame assembly, ESC wiring, flight controller tuning, and camera feed integration for real-time piloting.',
-    tags: ['Hardware', 'Flight Controller', 'FPV', 'PID Tuning'],
+    id: 'MISSION-001',
+    title: 'Digital Twin for Drone',
+    featured: true,
+    status: 'active',
+    statusLabel: 'IN PROGRESS',
+    desc: 'Building a real-time simulation that mirrors my actual drone — telemetry, IMU, flight state, all synced. The goal is to be able to test things without crashing the real one. again.',
+    tags: ['Python', 'ROS', 'Telemetry', 'Simulation', 'IMU', 'MAVLink'],
+    year: '2025',
+  },
+  {
+    id: 'MISSION-002',
+    title: 'FPV Drone Build',
+    status: 'done',
+    statusLabel: 'COMPLETE',
+    desc: 'Built a quad from scratch. Crashed it 11 times before it flew properly. PID tuning is genuinely humbling.',
+    tags: ['Hardware', 'Flight Controller', 'FPV', 'PID'],
     year: '2024',
   },
   {
-    idx: '03',
-    title: 'UI/UX Design — Web Platform',
-    desc: 'Designed and developed the full user interface for a web application, focusing on clean layout, intuitive navigation, and a consistent visual language.',
+    id: 'MISSION-003',
+    title: 'UI/UX Web Platform',
+    status: 'done',
+    statusLabel: 'COMPLETE',
+    desc: 'Designed and built the frontend for a web platform. Mostly React. Figma first, then argued with myself about spacing for 3 days.',
     tags: ['React', 'Figma', 'CSS', 'UI/UX'],
     year: '2024',
   },
   {
-    idx: '04',
-    title: 'Developer Portfolio',
-    desc: 'Designed and built this portfolio from the ground up — dark minimal aesthetic, custom cursor, scroll animations, and a fully responsive layout.',
-    tags: ['React', 'Vite', 'Tailwind', 'CSS'],
+    id: 'MISSION-004',
+    title: 'This Portfolio',
+    status: 'active',
+    statusLabel: 'LIVE',
+    desc: 'Yes I built my own portfolio. Yes the submarine HUD theme was my idea. No I will not explain further.',
+    tags: ['React', 'Vite', 'Canvas', 'CSS'],
     year: '2025',
   },
   {
-    idx: '05',
+    id: 'MISSION-005',
     title: 'Video Wall Interface',
-    desc: 'Building a modular video wall display system using Raspberry Pi Pico microcontrollers driving TFT screens — coordinated to render a single image or video across multiple panels.',
-    tags: ['Raspberry Pi Pico', 'TFT', 'MicroPython', 'Embedded'],
+    status: 'done',
+    statusLabel: 'COMPLETE',
+    desc: 'Raspberry Pi Pico driving a TFT matrix over SPI. MicroPython. Worked first try which was suspicious.',
+    tags: ['RPi Pico', 'TFT', 'MicroPython', 'SPI'],
     year: '2025',
   },
 ];
 
 export default function Projects() {
-  const sectionRef = useRef(null);
-
+  const ref = useRef();
   useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting)
+          e.target.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
       });
-    }, { threshold: 0.1 });
-    sectionRef.current?.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    return () => observer.disconnect();
+    }, { threshold: 0.05 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
   }, []);
 
   return (
-    <section className="section" id="projects" ref={sectionRef}>
-      <div className="section-header">
-        <span className="section-label">Selected Work</span>
-        <span className="section-index">02 / 03</span>
-      </div>
-
-      {/* Featured */}
-      <div className="featured-wrap reveal">
-        <div>
-          <div className="featured-badge">Featured Project</div>
-          <h2 className="featured-title">
-            {FEATURED.title.split('\n').map((line, i) => (
-              <span key={i}>{line}{i < 1 && <br />}</span>
-            ))}
-          </h2>
-          <p className="featured-body">{FEATURED.desc}</p>
-          <div className="featured-stack">
-            {FEATURED.stack.map(t => <span className="tag" key={t}>{t}</span>)}
-          </div>
+    <section className="section" id="work" ref={ref}>
+      <div className="work-section">
+        <div className="work-section-title">
+          MISSION LOG — COMPLETED &amp; ACTIVE OPS
+          <span className="sect-num">02 / 03</span>
         </div>
-        <div className="featured-meta-list">
-          {FEATURED.meta.map(m => (
-            <div className="meta-row" key={m.k}>
-              <span className="meta-k">{m.k}</span>
-              <span className="meta-v">{m.v}</span>
+        <div className="projects-grid">
+          {PROJECTS.map((p, i) => (
+            <div
+              key={p.id}
+              className={`project-card reveal ${p.featured ? 'featured' : ''}`}
+              style={{ transitionDelay: `${i * 0.07}s` }}
+            >
+              <div className="bracket tl"/><div className="bracket br"/>
+              <div className="project-card-header">
+                <span className="project-card-id">{p.id}</span>
+                <span className={`project-card-status ${p.status}`}>{p.statusLabel}</span>
+              </div>
+              <div className="project-body">
+                <div className="project-title">{p.title}</div>
+                <p className="project-desc">{p.desc}</p>
+                <div className="project-chips">
+                  {p.tags.map(t => <span key={t} className="pchip">{t}</span>)}
+                </div>
+              </div>
+              <div className="project-card-footer">
+                <span>YEAR: {p.year}</span>
+                <span>→ VIEW</span>
+              </div>
             </div>
           ))}
         </div>
-      </div>
-
-      {/* List */}
-      <div className="projects-list reveal">
-        {PROJECTS.map(p => (
-          <div className="project-row" key={p.idx}>
-            <span className="project-idx">{p.idx}</span>
-            <div className="project-main">
-              <div className="project-title-text">{p.title}</div>
-              <div className="project-desc-short">{p.desc}</div>
-            </div>
-            <div className="project-tags">
-              {p.tags.map(t => <span className="tag" key={t}>{t}</span>)}
-            </div>
-            <div className="project-year">
-              {p.year} <span className="project-arrow-icon">→</span>
-            </div>
-          </div>
-        ))}
       </div>
     </section>
   );

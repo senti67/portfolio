@@ -1,18 +1,12 @@
 import './Marquee.css';
-
-const ITEMS = [
-  'Embedded C','STM32','Drone Systems','FreeRTOS',
-  'PCB Design','IoT','OpenCV','MAVLink',
-  'KiCad','Python','TinyML','MQTT',
-];
-
-export default function Marquee() {
-  const doubled = [...ITEMS, ...ITEMS];
-  return (
+const ITEMS=['Embedded Systems','Drone Engineering','ROS / MAVLink','Flight Controllers','IoT Firmware','PCB Design','React & Vite','Python & C++','Autonomous Systems','Sensor Fusion','Digital Twins','FPV Systems'];
+export default function Marquee(){
+  const d=[...ITEMS,...ITEMS];
+  return(
     <div className="marquee-wrap">
       <div className="marquee-track">
-        {doubled.map((item, i) => (
-          <span className="marquee-item" key={i}>{item}</span>
+        {d.map((item,i)=>(
+          <div key={i} className="marquee-item"><span className="marquee-sep">◆</span>{item}</div>
         ))}
       </div>
     </div>
