@@ -1,53 +1,23 @@
 import { useEffect, useRef } from 'react';
 import './Projects.css';
 
+const FEATURED = {
+  title: 'Digital Twin for Drone',
+  desc: 'Building a real-time simulation that mirrors my actual drone — telemetry, IMU, flight state, all synced. The goal is to be able to test things without crashing the real one. again.',
+  tags: ['Python', 'ROS', 'Telemetry', 'Simulation', 'IMU', 'MAVLink'],
+  meta: [
+    { k: 'Status',   v: 'In Progress' },
+    { k: 'Year',     v: '2025' },
+    { k: 'Stack',    v: 'ROS / Python' },
+    { k: 'Hardware', v: 'Custom FC' },
+  ],
+};
+
 const PROJECTS = [
-  {
-    id: 'MISSION-001',
-    title: 'Digital Twin for Drone',
-    featured: true,
-    status: 'active',
-    statusLabel: 'IN PROGRESS',
-    desc: 'Building a real-time simulation that mirrors my actual drone — telemetry, IMU, flight state, all synced. The goal is to be able to test things without crashing the real one. again.',
-    tags: ['Python', 'ROS', 'Telemetry', 'Simulation', 'IMU', 'MAVLink'],
-    year: '2025',
-  },
-  {
-    id: 'MISSION-002',
-    title: 'FPV Drone Build',
-    status: 'done',
-    statusLabel: 'COMPLETE',
-    desc: 'Built a quad from scratch. Crashed it 11 times before it flew properly. PID tuning is genuinely humbling.',
-    tags: ['Hardware', 'Flight Controller', 'FPV', 'PID'],
-    year: '2024',
-  },
-  {
-    id: 'MISSION-003',
-    title: 'UI/UX Web Platform',
-    status: 'done',
-    statusLabel: 'COMPLETE',
-    desc: 'Designed and built the frontend for a web platform. Mostly React. Figma first, then argued with myself about spacing for 3 days.',
-    tags: ['React', 'Figma', 'CSS', 'UI/UX'],
-    year: '2024',
-  },
-  {
-    id: 'MISSION-004',
-    title: 'This Portfolio',
-    status: 'active',
-    statusLabel: 'LIVE',
-    desc: 'Yes I built my own portfolio. Yes the submarine HUD theme was my idea. No I will not explain further.',
-    tags: ['React', 'Vite', 'Canvas', 'CSS'],
-    year: '2025',
-  },
-  {
-    id: 'MISSION-005',
-    title: 'Video Wall Interface',
-    status: 'done',
-    statusLabel: 'COMPLETE',
-    desc: 'Raspberry Pi Pico driving a TFT matrix over SPI. MicroPython. Worked first try which was suspicious.',
-    tags: ['RPi Pico', 'TFT', 'MicroPython', 'SPI'],
-    year: '2025',
-  },
+  { num: '02', title: 'FPV Drone Build', desc: 'Crashed it 11 times before it flew properly. PID tuning is genuinely humbling.', tags: ['Hardware','FPV','PID'], year: '2024', status: 'done' },
+  { num: '03', title: 'UI/UX Web Platform', desc: 'Designed and built the frontend. Argued with myself about spacing for 3 days.', tags: ['React','Figma','CSS'], year: '2024', status: 'done' },
+  { num: '04', title: 'This Portfolio', desc: 'Yes the submarine HUD theme was my idea. No I will not explain further.', tags: ['React','Vite','Canvas'], year: '2025', status: 'active' },
+  { num: '05', title: 'Video Wall Interface', desc: 'RPi Pico driving a TFT matrix over SPI. Worked first try which was suspicious.', tags: ['RPi Pico','MicroPython','SPI'], year: '2025', status: 'done' },
 ];
 
 export default function Projects() {
@@ -70,28 +40,43 @@ export default function Projects() {
           MISSION LOG — COMPLETED &amp; ACTIVE OPS
           <span className="sect-num">02 / 03</span>
         </div>
-        <div className="projects-grid">
+
+        {/* featured — big asymmetric layout */}
+        <div className="project-featured reveal">
+          <div className="project-featured-left">
+            <div className="bracket tl"/>
+            <div className="featured-eyebrow">◆ ACTIVE MISSION</div>
+            <div className="featured-title-big">{FEATURED.title}</div>
+            <p className="featured-desc">{FEATURED.desc}</p>
+            <div className="featured-chips">
+              {FEATURED.tags.map(t => <span key={t} className="pchip">{t}</span>)}
+            </div>
+          </div>
+          <div className="project-featured-right">
+            {FEATURED.meta.map(m => (
+              <div className="feat-meta-row" key={m.k}>
+                <div className="feat-meta-k">{m.k}</div>
+                <div className="feat-meta-v">{m.v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* rest — horizontal list rows, not cards */}
+        <div className="projects-list">
           {PROJECTS.map((p, i) => (
-            <div
-              key={p.id}
-              className={`project-card reveal ${p.featured ? 'featured' : ''}`}
-              style={{ transitionDelay: `${i * 0.07}s` }}
-            >
-              <div className="bracket tl"/><div className="bracket br"/>
-              <div className="project-card-header">
-                <span className="project-card-id">{p.id}</span>
-                <span className={`project-card-status ${p.status}`}>{p.statusLabel}</span>
+            <div className="project-row reveal" key={p.num} style={{ transitionDelay: `${i * 0.06}s` }}>
+              <div className="project-row-num">{p.num}</div>
+              <div className="project-row-body">
+                <div className="project-row-title">{p.title}</div>
+                <div className="project-row-desc">{p.desc}</div>
               </div>
-              <div className="project-body">
-                <div className="project-title">{p.title}</div>
-                <p className="project-desc">{p.desc}</p>
-                <div className="project-chips">
-                  {p.tags.map(t => <span key={t} className="pchip">{t}</span>)}
-                </div>
+              <div className="project-row-tags">
+                {p.tags.map(t => <span key={t} className="pchip">{t}</span>)}
               </div>
-              <div className="project-card-footer">
-                <span>YEAR: {p.year}</span>
-                <span>→ VIEW</span>
+              <div className="project-row-year">{p.year}</div>
+              <div className={`project-row-status ${p.status}`}>
+                {p.status === 'active' ? 'LIVE' : 'DONE'}
               </div>
             </div>
           ))}
