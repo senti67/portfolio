@@ -29,7 +29,7 @@
   font-size: clamp(48px, 5.5vw, 80px);
   font-weight: 800;
   color: var(--amber);
-  text-shadow: 0 0 40px rgba(255,176,0,0.3);
+  text-shadow: 0 0 2px rgba(255,176,0,0.3);
   line-height: 0.9;
   letter-spacing: -0.03em;
   margin-bottom: 6px;
@@ -46,7 +46,7 @@
   max-width: 480px;
 }
 .profile-bio.small {
-  font-size: 10px; opacity: 0.4;
+  font-size: 10px; opacity:1;
   font-style: italic; margin-top: 4px;
 }
 .profile-tags {
@@ -73,7 +73,7 @@
 .stat-cell:last-child { border-right: none; }
 .stat-val {
   font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800;
-  color: var(--amber); text-shadow: 0 0 16px rgba(255,176,0,0.5);
+  color: var(--amber); text-shadow: 0 0 2px rgba(255,176,0,0.5);
   line-height: 1; margin-bottom: 4px;
 }
 .stat-lbl { font-size: 8px; letter-spacing: 0.1em; color: var(--text-faint); text-transform: lowercase; }
@@ -94,11 +94,11 @@
   display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
 }
 .skill-id { font-size: 8px; color: var(--text-faint); width: 18px; }
-.skill-name { font-size: 11px; color: rgba(255,176,0,0.65); flex: 0 0 120px; }
+.skill-name { font-size: 11px; color: rgba(255,176,0,0.65); flex: 0 0 2px; }
 .skill-track { flex: 1; height: 1px; background: var(--border2); }
 .skill-fill {
   height: 100%; background: var(--amber);
-  box-shadow: 0 0 6px rgba(255,176,0,0.5);
+  box-shadow: 0 0 2px rgba(255,176,0,0.5);
   transform-origin: left; transform: scaleX(0);
   transition: transform 1.4s cubic-bezier(0.4,0,0.2,1);
 }

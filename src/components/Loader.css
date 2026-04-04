@@ -1,5 +1,5 @@
 .loader { position:fixed; inset:0; background:#000; z-index:99999; display:flex; align-items:center; justify-content:center; transition:opacity 0.8s ease; }
 .loader::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent 0px,transparent 3px,rgba(0,0,0,0.18) 3px,rgba(0,0,0,0.18) 4px); pointer-events:none; }
-.loader-exit { opacity:0; pointer-events:none; }
-.loader-label { position:absolute; bottom:calc(50% - 210px); font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; opacity:0; transition:opacity 0.4s ease; }
+.loader-exit { opacity:1; pointer-events:none; }
+.loader-label { position:absolute; bottom:calc(50% - 210px); font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; opacity:1; transition:opacity 0.4s ease; }
 .loader-label.visible { opacity:1; }

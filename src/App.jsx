@@ -11,12 +11,13 @@ import Footer from './components/Footer';
 export default function App(){
   const [loaded,setLoaded]=useState(false);
   return(
-    <>
-      {!loaded&&<Loader onDone={()=>setLoaded(true)}/>}
-      <div className="crt-flicker" style={{opacity:loaded?1:0,transition:'opacity 0.7s ease'}}>
-        <CustomCursor/>
-        <Navbar/>
-        <main>
+<>
+  {!loaded && <Loader onDone={() => setLoaded(true)} />}
+  <div className="crt-flicker" style={{ opacity: 1 }}>
+    <CustomCursor />
+    <Navbar />
+    <main>
+
           <Hero key={loaded?'loaded':'hidden'}/>
           <Marquee/>
           <About/>

@@ -10,17 +10,8 @@ export default function TopoMap() {
     let W, H;
 
     const resize = () => {
-  const dpr = window.devicePixelRatio || 1;
-
-      W = canvas.offsetWidth;
-      H = canvas.offsetHeight;
-  canvas.width = W * dpr;
-  canvas.height = H * dpr;
-  canvas.style.width = W + "px";
-  canvas.style.height = H + "px";
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.translate(0.5, 0.5);
-
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
     };
     resize();
     window.addEventListener('resize', resize);
@@ -216,11 +207,11 @@ export default function TopoMap() {
         // lines near peaks are brighter and thicker
         const nearPeak = Math.pow(t01, 1.4);
         const alpha    = 0.06 + nearPeak * 0.55;
-        const lw = 0.8 + nearPeak * 1.2;
+        const lw       = 0.3  + nearPeak * 0.9;
 
         // glow only on upper contours
-        const glowW = nearPeak > 0.7 ? 2 : 0;
-        const glowA = nearPeak > 0.7 ? (nearPeak - 0.7) * 0.15 : 0;
+        const glowW = nearPeak > 0.7 ? 6 : 0;
+        const glowA = nearPeak > 0.7 ? (nearPeak - 0.7) * 0.25 : 0;
 
         ctx.strokeStyle = `rgba(255,${Math.floor(150 + nearPeak * 30)},0,${alpha})`;
         ctx.lineWidth   = lw;

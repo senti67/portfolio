@@ -29,7 +29,7 @@
   color: var(--amber); line-height: 1.0;
   letter-spacing: -0.02em; margin-bottom: 28px;
   margin-left: -3px;
-  text-shadow: 0 0 30px rgba(255,176,0,0.2);
+  text-shadow: 0 0 2px rgba(255,176,0,0.2);
 }
 .contact-desc {
   font-size: 13px; line-height: 1.85;
@@ -82,7 +82,7 @@
 }
 .transmit-btn:hover {
   background: var(--amber); color: #000;
-  text-shadow: none; box-shadow: 0 0 20px rgba(255,176,0,0.3);
+  text-shadow: none; box-shadow: 0 0 2px rgba(255,176,0,0.3);
 }
 
 @media (max-width: 600px) {
